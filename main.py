@@ -2,7 +2,15 @@
 
 import sender_stand_request
 
-orderId = sender_stand_request.post_new_order()
-order = sender_stand_request.get_order(orderId)
+sendOrder = sender_stand_request.post_new_order()
 
-print(order)
+assert sendOrder.status_code == 201
+assert sendOrder.json()["track"] != ""
+
+track = sendOrder.json()["track"]
+
+getOrder = sender_stand_request.get_order(track)
+
+assert getOrder.status_code == 200
+
+print("passed")
